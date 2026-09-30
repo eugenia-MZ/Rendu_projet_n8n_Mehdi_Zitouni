@@ -1,0 +1,35 @@
+{
+  "lastSync": "2026-09-30T12:30:15.190Z",
+  "workflows": {
+    "Sandbox/Workflow avec IA.workflow.ts": {
+      "id": "CQxpHU4odLlCLZPF",
+      "name": "Workflow avec IA",
+      "localPath": "Sandbox/Workflow avec IA.workflow.ts",
+      "contentHash": "d7c3c3264b30e769145adb19d37a8f45b99c58b630214a2783050c07f47bf361",
+      "remoteUpdatedAt": "2026-09-30T12:17:48.360Z",
+      "folderId": "p7flPBeOuhR4qnRk"
+    },
+    "Sandbox/Demo Eugenia Premier Workflow.workflow.ts": {
+      "id": "NH71fiB1E1KyGCHL",
+      "name": "Demo Eugenia Premier Workflow",
+      "localPath": "Sandbox/Demo Eugenia Premier Workflow.workflow.ts",
+      "contentHash": "d034d16aa8cf5afaa0dc053d62706d5ba1a7c044efaacaf25592f90fef759a23",
+      "remoteUpdatedAt": "2026-09-30T12:17:48.360Z",
+      "folderId": "p7flPBeOuhR4qnRk"
+    },
+    "Sandbox/BTP CRM _ Nouveau Prospect.workflow.ts": {
+      "id": "ORdUvRK6XC6h48Zw",
+      "name": "BTP CRM : Nouveau Prospect",
+      "localPath": "Sandbox/BTP CRM _ Nouveau Prospect.workflow.ts",
+      "contentHash": "bc41a8c14f4f6b3b1d91ff396b2908d329760907ecaab1ab95fe5e0119c3a45e",
+      "remoteUpdatedAt": "2026-09-30T12:17:48.360Z",
+      "folderId": "p7flPBeOuhR4qnRk"
+    }
+  },
+  "folders": [
+    "WWjh5wtsTI2QMpvR",
+    "4m9LXPYjkpHkWPAc",
+    "p7flPBeOuhR4qnRk",
+    "N1z0WZbtiV001DY4"
+  ]
+}
