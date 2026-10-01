@@ -1,0 +1,373 @@
+{
+  "name": "Book Summary Interview Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "livre_pdf",
+        "formDescription": "Déposez le PDF du livre à résumer.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Livre",
+              "fieldType": "file",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "On Book Upload",
+      "name": "On Book Upload",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "2c579e3c-afdf-4a24-ba98-6b8ba39bdf83"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Livre",
+        "options": {}
+      },
+      "id": "Extract Book Text",
+      "name": "Extract Book Text",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        220,
+        0
+      ],
+      "notes": "Extrait le texte brut du livre uploadé dans le champ text.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "clearStore": true,
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "id": "Index Book into Vector Store",
+      "name": "Index Book into Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        460,
+        0
+      ],
+      "notes": "Remplace le livre precedemment indexe a chaque upload.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "text",
+        "completionTitle": "Livre indexé",
+        "completionMessage": "Le livre est prêt. Ouvrez le chat pour demander votre résumé.",
+        "options": {}
+      },
+      "id": "Confirm Book Indexed",
+      "name": "Confirm Book Indexed",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-embedding-2"
+      },
+      "id": "Gemini embeddings for Indexing",
+      "name": "Gemini embeddings for Indexing",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        200
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "EZ4cTLaSrn7ILwAP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "json",
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $json.text }}",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "id": "Book Document Loader",
+      "name": "Book Document Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        600,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "chunkSize": 2000,
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "id": "Split Book into Chunks",
+      "name": "Split Book into Chunks",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        600,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "id": "When Chat Message Received",
+      "name": "When Chat Message Received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        780
+      ],
+      "webhookId": "3c214ea3-8eef-4e9f-a953-3869f92df211"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "# Role : Product Manager & Analyste Stratégique Socratique (Intervieweur)\n\nTu es un Product Manager expert, spécialisé dans la définition de projets de développement web et d'automatisation (n8n). \nTon objectif est de comprendre le projet de l'utilisateur, mais surtout de le forcer à définir ses besoins de manière irréprochable via un questionnement continu et multidimensionnel.\n\n## Tes Objectifs\n1. **Comprendre le \"Pourquoi\" :** Ne te contente pas de la solution proposée. Cherche le problème fondamental.\n2. **Challenger les hypothèses :** Pousse l'utilisateur dans ses retranchements s'il propose des idées floues.\n3. **Récolter de la donnée qualitative :** Identifie la cible, le marché, les cas d'usage réels et les contraintes métier.\n\n## Tes Règles de Comportement (STRICTES)\n- **Le Questionnement Multiple et Permanent :** Tu ne dois JAMAIS donner de solution toute faite ou clore un sujet sans poser de questions. **Chacune de tes réponses DOIT se terminer par une liste de 3 à 5 questions pertinentes et complémentaires.**\n- **Couverture à 360 degrés :** Tes questions doivent attaquer le sujet sous différents angles en même temps (ex: 1 question sur la cible, 1 question sur la faisabilité, 1 question sur le ROI).\n- **La méthode des 5 Pourquoi :** Si une réponse manque de profondeur, intègre des questions qui creusent la cause racine.\n- **Validation active :** Synthétise ce que tu as compris, puis pose immédiatement ta série de questions pour challenger l'étape suivante.\n\n## Ta Structure d'Interview\n1. **La Vision :** Quel est le but ultime du projet ? \n2. **L'Utilisateur :** À qui s'adresse ce produit / cette automatisation ?\n3. **Le Processus Actuel :** Comment le problème est-il géré aujourd'hui ?\n4. **La Définition de Terminé (DoD) :** À quoi verra-t-on que le MVP est un succès ?\n\n**Démarre la conversation en demandant un résumé du projet, et pose immédiatement tes 3 premières questions pour challenger son utilité réelle, sa cible et ses contraintes.**\n\n## Contexte de cette conversation (PRIORITAIRE)\nUn livre a été importé dans ta base de connaissances via le formulaire d'upload. Tu y accèdes uniquement par l'outil « Book Knowledge Base ».\n\nRègles d'usage de l'outil :\n- Appelle-le AVANT chaque réponse, avec plusieurs requêtes ciblées et distinctes (thèse centrale, structure, chapitres, exemples, recommandations pratiques).\n- Ne t'appuie que sur les extraits retournés. N'invente jamais un contenu, un chiffre ou un nom absent des extraits.\n- Si l'outil ne retourne rien d'exploitable, dis-le clairement et demande à l'utilisateur d'uploader le livre via le formulaire avant de continuer.\n\nTa mission : produire un résumé structuré du livre (thèse centrale, idées clés, structure par chapitre, exemples marquants, conseils actionnables) tout en appliquant ta méthode d'interview.\n\nFormat imposé de chaque réponse :\n1. Le contenu demandé (résumé, synthèse ou analyse), appuyé sur les extraits du livre.\n2. Une courte synthèse de ce que tu as compris du besoin de l'utilisateur.\n3. Une liste de 3 à 5 questions pour cerner son objectif réel, sa cible, le niveau de détail attendu et l'usage concret qu'il veut en faire.\n\nException à ta règle « jamais de solution toute faite » : tu livres bien le résumé demandé. Mais tu ne termines JAMAIS une réponse sans tes 3 à 5 questions."
+        }
+      },
+      "id": "Interview Agent",
+      "name": "Interview Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        260,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-flash-lite-latest",
+        "options": {}
+      },
+      "id": "Gemini Chat Model",
+      "name": "Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        980
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "EZ4cTLaSrn7ILwAP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Recherche dans le texte integral du livre uploade par l'utilisateur. A appeler avant de repondre a toute question sur le livre, avec plusieurs requetes distinctes et ciblees.",
+        "topK": 20,
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "id": "Book Knowledge Base",
+      "name": "Book Knowledge Base",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        980
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-embedding-2"
+      },
+      "id": "Gemini embeddings for Retrieval",
+      "name": "Gemini embeddings for Retrieval",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        1180
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "EZ4cTLaSrn7ILwAP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Étape 1 : indexer le livre\n\n**À lancer en premier.**\n\n1. Ouvre l'URL du formulaire et dépose le PDF du livre.\n2. `Extract Book Text` en extrait le texte brut.\n3. `Index Book into Vector Store` le découpe en chunks de 2000 caractères (chevauchement 200), les vectorise avec Gemini et les stocke sous la clé `vector_store_key`.\n\n⚠️ Le store est **en mémoire** : il se vide à chaque redémarrage de n8n. Il faut alors ré-uploader le PDF.\n\n⚠️ `clearStore` est à `true` : chaque upload **remplace** le livre précédent.",
+        "width": 1060,
+        "height": 200,
+        "color": 2
+      },
+      "id": "Book Indexing Flow",
+      "name": "Book Indexing Flow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Étape 2 : interview et résumé\n\n**À utiliser une fois le livre indexé.**\n\nL'agent suit le prompt de `skills/interview.md` : il livre le résumé demandé, puis termine toujours par 3 à 5 questions.\n\nIl lit le livre via `Book Knowledge Base`, qui retourne les 20 chunks les plus proches pour couvrir large sur un livre entier.\n\n💬 Ouvre le chat et demande par exemple : « Résume-moi ce livre chapitre par chapitre ».",
+        "width": 700,
+        "height": 180,
+        "color": 2
+      },
+      "id": "Chat Interview Flow",
+      "name": "Chat Interview Flow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        560
+      ]
+    }
+  ],
+  "connections": {
+    "On Book Upload": {
+      "main": [
+        [
+          {
+            "node": "Extract Book Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Book Text": {
+      "main": [
+        [
+          {
+            "node": "Index Book into Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Index Book into Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Confirm Book Indexed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Chat Message Received": {
+      "main": [
+        [
+          {
+            "node": "Interview Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Interview Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Book Knowledge Base": {
+      "ai_tool": [
+        [
+          {
+            "node": "Interview Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini embeddings for Retrieval": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Book Knowledge Base",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini embeddings for Indexing": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Index Book into Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Book Document Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Index Book into Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Book into Chunks": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Book Document Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

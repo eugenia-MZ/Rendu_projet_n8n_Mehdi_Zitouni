@@ -1,6 +1,14 @@
 {
-  "lastSync": "2026-09-30T12:30:15.190Z",
+  "lastSync": "2026-10-01T12:07:33.333Z",
   "workflows": {
+    "Sandbox/Book Summary Interview Agent.workflow.ts": {
+      "id": "YtCDbCa6wf3AHyPE",
+      "name": "Book Summary Interview Agent",
+      "localPath": "Sandbox/Book Summary Interview Agent.workflow.ts",
+      "contentHash": "c16ffe288201bfb2b9e6970be5be7cbe869de0d632e85fffa64f6961a866b48f",
+      "remoteUpdatedAt": "2026-10-01T12:07:21.961Z",
+      "folderId": "p7flPBeOuhR4qnRk"
+    },
     "Sandbox/Workflow avec IA.workflow.ts": {
       "id": "CQxpHU4odLlCLZPF",
       "name": "Workflow avec IA",
