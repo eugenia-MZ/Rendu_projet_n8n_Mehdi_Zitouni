@@ -1,12 +1,12 @@
 {
-  "lastSync": "2026-10-01T12:07:33.333Z",
+  "lastSync": "2026-10-01T12:13:31.843Z",
   "workflows": {
     "Sandbox/Book Summary Interview Agent.workflow.ts": {
       "id": "YtCDbCa6wf3AHyPE",
       "name": "Book Summary Interview Agent",
       "localPath": "Sandbox/Book Summary Interview Agent.workflow.ts",
-      "contentHash": "c16ffe288201bfb2b9e6970be5be7cbe869de0d632e85fffa64f6961a866b48f",
-      "remoteUpdatedAt": "2026-10-01T12:07:21.961Z",
+      "contentHash": "00811cb21f9fae4689616a0e1cd1c9d16683f3f3e8891a9a32b4b4421f09e71d",
+      "remoteUpdatedAt": "2026-10-01T12:13:31.841Z",
       "folderId": "p7flPBeOuhR4qnRk"
     },
     "Sandbox/Workflow avec IA.workflow.ts": {
@@ -34,10 +34,5 @@
       "folderId": "p7flPBeOuhR4qnRk"
     }
   },
-  "folders": [
-    "WWjh5wtsTI2QMpvR",
-    "4m9LXPYjkpHkWPAc",
-    "p7flPBeOuhR4qnRk",
-    "N1z0WZbtiV001DY4"
-  ]
+  "folders": []
 }
