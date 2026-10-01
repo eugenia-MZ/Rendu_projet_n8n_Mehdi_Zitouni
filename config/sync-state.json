@@ -1,12 +1,28 @@
 {
-  "lastSync": "2026-10-01T12:13:31.843Z",
+  "lastSync": "2026-10-01T21:19:30.814Z",
   "workflows": {
+    "Projects/RAG livre.workflow.ts": {
+      "id": "zzdixk38ZELQDWsh",
+      "name": "RAG livre",
+      "localPath": "Projects/RAG livre.workflow.ts",
+      "contentHash": "e698cbf96de457a0d5abeef0d2471d1ca0197e5ed6ea2f262a2afee3c2503e57",
+      "remoteUpdatedAt": "2026-10-01T21:01:54.985Z",
+      "folderId": "WWjh5wtsTI2QMpvR"
+    },
+    "Templates/🤖 Create a Documentation Expert Bot with RAG, Gemini, and Supabase.workflow.ts": {
+      "id": "c7DCRRVAvaesq0rx",
+      "name": "🤖 Create a Documentation Expert Bot with RAG, Gemini, and Supabase",
+      "localPath": "Templates/🤖 Create a Documentation Expert Bot with RAG, Gemini, and Supabase.workflow.ts",
+      "contentHash": "c916ea105fd920ad365e3b1b48bb8c8afb057a86ecabdeb8442ea551d8253e40",
+      "remoteUpdatedAt": "2026-10-01T13:09:09.988Z",
+      "folderId": "4m9LXPYjkpHkWPAc"
+    },
     "Sandbox/Book Summary Interview Agent.workflow.ts": {
       "id": "YtCDbCa6wf3AHyPE",
       "name": "Book Summary Interview Agent",
       "localPath": "Sandbox/Book Summary Interview Agent.workflow.ts",
-      "contentHash": "00811cb21f9fae4689616a0e1cd1c9d16683f3f3e8891a9a32b4b4421f09e71d",
-      "remoteUpdatedAt": "2026-10-01T12:13:31.841Z",
+      "contentHash": "c16ffe288201bfb2b9e6970be5be7cbe869de0d632e85fffa64f6961a866b48f",
+      "remoteUpdatedAt": "2026-10-01T12:13:32.504Z",
       "folderId": "p7flPBeOuhR4qnRk"
     },
     "Sandbox/Workflow avec IA.workflow.ts": {
@@ -34,5 +50,10 @@
       "folderId": "p7flPBeOuhR4qnRk"
     }
   },
-  "folders": []
+  "folders": [
+    "WWjh5wtsTI2QMpvR",
+    "4m9LXPYjkpHkWPAc",
+    "p7flPBeOuhR4qnRk",
+    "N1z0WZbtiV001DY4"
+  ]
 }

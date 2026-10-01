@@ -1,6 +1,12 @@
 {
-  "env": "PROD",
+  "env": "development",
   "localDir": "n8n",
   "projectId": "Y3pFNVsSSryk8edf",
-  "projectName": "Mehdi Zitouni <mzitouni@eugeniaschool.com>"
+  "projectName": "Mehdi Zitouni <mzitouni@eugeniaschool.com>",
+  "references": [
+    {
+      "name": "Workflow Examples Ref",
+      "builtin": "examples"
+    }
+  ]
 }
