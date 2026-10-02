@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-10-01T21:23:37.040Z",
+  "lastSync": "2026-10-02T14:04:11.863Z",
   "workflows": {
     "Projects/RAG livre.workflow.ts": {
       "id": "zzdixk38ZELQDWsh",
@@ -50,5 +50,10 @@
       "folderId": "p7flPBeOuhR4qnRk"
     }
   },
-  "folders": []
+  "folders": [
+    "WWjh5wtsTI2QMpvR",
+    "4m9LXPYjkpHkWPAc",
+    "p7flPBeOuhR4qnRk",
+    "N1z0WZbtiV001DY4"
+  ]
 }
